@@ -33,7 +33,8 @@ export class HomePage {
     this.auth.authenticate(this.creds)
       .subscribe(response => {
         this.auth.successfulLogin(response.headers.get('Authorization'));
-        this.navCtrl.push('CategoriasPage');
+        //this.navCtrl.push('CategoriasPage');  //empilha a página
+        this.navCtrl.setRoot('CategoriasPage'); //abre a página sem empilhar
       },
       error => {})
   }
