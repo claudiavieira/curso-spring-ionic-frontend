@@ -1,6 +1,10 @@
+import { CidadeDTO } from './../../models/cidade.dto';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CidadeService } from '../../services/domain/cidade.service';
+import { EstadoService } from '../../services/domain/estado.service';
+import { EstadoDTO } from '../../models/estado.dto';
 
 @IonicPage()
 @Component({
@@ -11,10 +15,15 @@ export class SignupPage {
 
   formGroup: FormGroup;
 
+  estados: EstadoDTO[];
+  cidades: CidadeDTO[];
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public formBuilder: FormBuilder) {
+    public formBuilder: FormBuilder,
+    public cidadeService: CidadeService,
+    public estadoService: EstadoService) {
 
       //Validators.required = preenchimento obrigatório
       //Validators.minLength(5) = minimo tamanho 5
@@ -39,6 +48,26 @@ export class SignupPage {
         cidadeId : [null, [Validators.required]]
 
       });
+  }
+
+  ionViewDidLoad(){
+    this.estadoService.findAll()
+      .subscribe(response => {
+        this.estados = response;
+        this.formGroup.controls.estadoId.setValue(this.estados[0].id);
+        this.updateCidades();
+      },
+      error => {});
+  }
+
+  updateCidades() {
+    let estado_id = this.formGroup.value.estadoId; //pega o codigo do estado que está selecionado na lista do html do formulario
+    this.cidadeService.findAll(estado_id)
+      .subscribe(response => {
+        this.cidades = response;
+        this.formGroup.controls.cidadeId.setValue(null); //pra limpar a cidade cada vez que selecionar o estado
+      },
+      error => {});
   }
 
   signupUser(){
