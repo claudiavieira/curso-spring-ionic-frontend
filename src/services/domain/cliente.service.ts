@@ -22,4 +22,15 @@ export class ClienteService{
     return this.http.get(url, {responseType : 'blob'});
   }
 
+  insert(obj: ClienteDTO){  //metodo insert vai receber um objeto do tipo ClienteDTO
+    return this.http.post( //faz um post no endpoint clientes
+      `${API_CONFIG.baseUrl}/clientes`,
+      obj, //passa o obj e espera uma resposta do tipo texto "responseType: text"
+      {
+        observe: 'response',
+        responseType: 'text'
+      }
+    );
+  }
+
 }
