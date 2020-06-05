@@ -38,8 +38,10 @@ export class CategoriasPage {
       error => {}); //se der erro
   }
 
-  showProdutos() {
-    this.navCtrl.push('ProdutosPage');
+  showProdutos(categoria_id: string) {
+    /*fazendo um push(navegação), passando parametros de uma página para outra. Ou seja,
+    então na página de categorias, vamos chamar a página de produtos, passando o código da categoria como parametro*/
+    this.navCtrl.push('ProdutosPage', {categoria_id: categoria_id});
   }
 
 }
