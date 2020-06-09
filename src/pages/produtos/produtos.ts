@@ -39,6 +39,10 @@ export class ProdutosPage {
         },
         error => {});
     }
+  }
 
+  showDetail() {
+    console.log('teste');
+    this.navCtrl.push('ProdutoDetailPage');
   }
 }
