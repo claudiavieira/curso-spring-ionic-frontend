@@ -9,7 +9,7 @@ export class CartService {
   constructor(public storage: StorageService){
   }
 
-  createOrClearCard() : Cart { //metodo retorna um Cart
+  createOrClearCart() : Cart { //metodo retorna um Cart
     let cart: Cart = {items: []}; //criando um carrinho vazio
     this.storage.setCart(cart); //armazenando no localstorage
     return cart; //retorna no metodo
@@ -18,7 +18,7 @@ export class CartService {
   getCart() : Cart { //metodo para obter o carrinho
     let cart: Cart = this.storage.getCart();
     if(cart == null) {  //se for nulo ele nao existia
-      cart = this.createOrClearCard();  //se nao existia, cria um cart
+      cart = this.createOrClearCart();  //se nao existia, cria um cart
     }
     return cart;
   }
