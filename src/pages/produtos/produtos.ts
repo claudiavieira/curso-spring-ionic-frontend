@@ -22,6 +22,10 @@ export class ProdutosPage {
   }
 
   ionViewDidLoad() {
+   this.loadData();
+  }
+
+  loadData() {
     let categoria_id = this.navParams.get('categoria_id');  //NavParams: pega um parametro que foi passado na navegação que veio da página de categorias
 
     let loader = this.presentLoading();
@@ -58,5 +62,13 @@ export class ProdutosPage {
     });
     loader.present();
     return loader;
+  }
+
+  doRefresh(refresher) {
+    //depois de um certo tempo, neste caso 1000 milisegundos (1 segundos),será executado o metodo loadData para recarregar os dados
+    this.loadData();
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
   }
 }
