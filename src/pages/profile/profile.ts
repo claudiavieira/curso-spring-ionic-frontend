@@ -27,23 +27,27 @@ export class ProfilePage {
   }
 
   ionViewDidLoad() {
-    //Código provisório pra mostrar o email da pessoa na página de profile
-    let localUser = this.storage.getLocalUser();
-    if(localUser && localUser.email) {
-      this.clienteService.findByEmail(localUser.email)
-        .subscribe(response => {
-          this.cliente = response as ClienteDTO;
-          this.getImageIfExists(); //buscar imagem
-        },
-        error => {
-          if(error.status == 403) {
-            this.navCtrl.setRoot('HomePage');
-          }
-        });
-    }
-    else {
-      this.navCtrl.setRoot('HomePage');
-    }
+   this.loadData();
+  }
+
+  loadData() {
+     //Código provisório pra mostrar o email da pessoa na página de profile
+     let localUser = this.storage.getLocalUser();
+     if(localUser && localUser.email) {
+       this.clienteService.findByEmail(localUser.email)
+         .subscribe(response => {
+           this.cliente = response as ClienteDTO;
+           this.getImageIfExists(); //buscar imagem
+         },
+         error => {
+           if(error.status == 403) {
+             this.navCtrl.setRoot('HomePage');
+           }
+         });
+     }
+     else {
+       this.navCtrl.setRoot('HomePage');
+     }
   }
 
   getImageIfExists() {
@@ -73,4 +77,19 @@ export class ProfilePage {
     }, (err) => {
     });
   }
+
+  sendPicture() {
+    this.clienteService.uploadPicture(this.picture)
+      .subscribe(response => {
+        this.picture = null; //se der tudo certo vou receber uma resposta. Dentro dessa resposta, como enviei minha img para o amazons3 e deu tudo certo, vou vir na imagem e deixar como nulo
+        this.loadData();//recarregando os dados da página, força o recarregamento dos dados
+      },
+      error => {
+      });
+  }
+
+  cancel() {
+    this.picture = null;
+  }
 }
+
